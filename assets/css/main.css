@@ -1319,7 +1319,9 @@ body {
     }
 
     .hero {
-        min-height: 100svh;
+        /* Em telas estreitas, uma hero de 100vh recorta demais fotos
+           horizontais. A altura limitada preserva melhor a composição. */
+        min-height: clamp(520px, 72svh, 640px);
     }
 
     .hero__content {
