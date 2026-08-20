@@ -8,6 +8,10 @@ body {
     font-family: var(--fonte-corpo);
     font-size: var(--tamanho-texto);
     overflow-x: hidden;
+    /* Remove a caixinha azul de destaque que o celular mostra ao tocar em
+       links/botões. Os estados :focus-visible continuam intactos, então
+       quem navega por teclado ainda enxerga onde está. */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .container {
@@ -495,6 +499,14 @@ body {
    TÍTULOS DE SEÇÃO (variante clara)
    -------------------------------------------------------------------------- */
 
+.section__eyebrow--claro {
+    font-size: var(--tamanho-etiqueta);
+    font-weight: var(--peso-semi-negrito);
+    letter-spacing: var(--espacamento-letras-etiqueta);
+    text-transform: uppercase;
+    color: var(--cor-destaque-escuro);
+    margin-bottom: var(--espacamento-12);
+}
 
 .section__titulo--claro {
     font-family: var(--fonte-titulo);
