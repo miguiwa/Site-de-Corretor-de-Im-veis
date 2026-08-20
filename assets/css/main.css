@@ -2,16 +2,24 @@
    MAIN — Header + Hero
    ========================================================================== */
 
+html {
+    /* Remove a caixinha azul de destaque que o celular mostra ao tocar em
+       links/botões. Aplicado em html (não só body) porque em alguns
+       Android/Chrome a propriedade não herda de forma confiável — precisa
+       estar próxima da raiz e, em alguns casos, no próprio elemento tocado. */
+    -webkit-tap-highlight-color: transparent;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
 body {
     background: var(--cor-fundo);
     color: var(--cor-texto);
     font-family: var(--fonte-corpo);
     font-size: var(--tamanho-texto);
     overflow-x: hidden;
-    /* Remove a caixinha azul de destaque que o celular mostra ao tocar em
-       links/botões. Os estados :focus-visible continuam intactos, então
-       quem navega por teclado ainda enxerga onde está. */
-    -webkit-tap-highlight-color: transparent;
 }
 
 .container {
