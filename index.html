@@ -77,9 +77,9 @@
     </section>
 
     <!-- ======================================================================
-         FILTROS RÁPIDOS
+         FILTROS
          ====================================================================== -->
-    <section class="filtros" aria-label="Filtros rápidos de imóveis">
+    <section class="filtros" aria-label="Filtros de imóveis">
       <div class="container">
         <form class="filtros__painel" id="filtros-form">
 
@@ -88,13 +88,6 @@
               <label class="filtros__label" for="filtro-localizacao">Localização</label>
               <input class="filtros__input" id="filtro-localizacao" type="text" placeholder="Bairro ou cidade"
                 autocomplete="off">
-            </div>
-
-            <div class="filtros__campo">
-              <label class="filtros__label" for="filtro-tipo">Tipo</label>
-              <select class="filtros__select" id="filtro-tipo">
-                <option value="">Todos</option>
-              </select>
             </div>
 
             <div class="filtros__campo">
@@ -122,25 +115,6 @@
             </button>
           </div>
 
-          <div class="filtros__rapidos">
-            <div class="filtros__segmento" role="tablist" aria-label="Todos, comprar ou alugar">
-              <button type="button" class="filtros__segmento-btn is-active" data-finalidade="todos" role="tab"
-                aria-selected="true">Todos</button>
-              <button type="button" class="filtros__segmento-btn" data-finalidade="venda" role="tab"
-                aria-selected="false">Comprar</button>
-              <button type="button" class="filtros__segmento-btn" data-finalidade="aluguel" role="tab"
-                aria-selected="false">Alugar</button>
-            </div>
-
-            <button type="button" class="filtros__favoritos" data-filtro-favoritos aria-pressed="false">
-              <svg class="filtros__favoritos-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path
-                  d="M12 2.5l2.917 6.104 6.583.79-4.833 4.617 1.25 6.489L12 17.44l-5.917 3.06 1.25-6.489L2.5 9.394l6.583-.79L12 2.5z" />
-              </svg>
-              Favoritos
-            </button>
-          </div>
-
         </form>
       </div>
     </section>
@@ -150,8 +124,26 @@
          ====================================================================== -->
     <section class="imoveis" id="imoveis" aria-labelledby="imoveis-titulo">
       <div class="container">
-        <p class="section__eyebrow section__eyebrow--claro">Catálogo</p>
         <h2 id="imoveis-titulo" class="section__titulo section__titulo--claro">Imóveis disponíveis</h2>
+
+        <div class="filtros__rapidos">
+          <div class="filtros__segmento" role="tablist" aria-label="Todos, comprar ou alugar">
+            <button type="button" class="filtros__segmento-btn is-active" data-finalidade="todos" role="tab"
+              aria-selected="true">Todos</button>
+            <button type="button" class="filtros__segmento-btn" data-finalidade="venda" role="tab"
+              aria-selected="false">Comprar</button>
+            <button type="button" class="filtros__segmento-btn" data-finalidade="aluguel" role="tab"
+              aria-selected="false">Alugar</button>
+          </div>
+
+          <button type="button" class="filtros__favoritos" data-filtro-favoritos aria-pressed="false">
+            <svg class="filtros__favoritos-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 2.5l2.917 6.104 6.583.79-4.833 4.617 1.25 6.489L12 17.44l-5.917 3.06 1.25-6.489L2.5 9.394l6.583-.79L12 2.5z" />
+            </svg>
+            Favoritos
+          </button>
+        </div>
 
         <div class="grid-regular" id="grid-regular" data-estado="carregando"></div>
 

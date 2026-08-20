@@ -98,7 +98,6 @@
     modo: 'padrao', // 'padrao' | 'terrenos' | 'favoritos'
     finalidade: 'todos',
     localizacao: '',
-    tipo: '',
     precoMin: '',
     precoMax: '',
     mostrarTodos: false
@@ -411,33 +410,19 @@
 
   /* -- Filtros -------------------------------------------------------------- */
 
-  // No celular, os campos de Localização e Tipo são removidos do DOM (não
-  // apenas escondidos via CSS), para simplificar o painel de filtros a
-  // Todos/Comprar/Alugar + Preço mínimo/máximo. Roda uma única vez, no
-  // carregamento — não reage a resize (uso real é em tela de celular fixa,
-  // não em redimensionamento de janela). Como aplicarFiltros/limparFiltros/
-  // popularTipos/ligarAutocompleteLocalizacao já checam `if (!elemento) return`,
-  // removê-los daqui não quebra nenhuma dessas funções.
+  // No celular, o campo de Localização é removido do DOM (não apenas
+  // escondido via CSS), pra simplificar o painel de filtros a Preço
+  // mínimo/máximo. Roda uma única vez, no carregamento — não reage a
+  // resize (uso real é em tela de celular fixa, não em redimensionamento
+  // de janela). Como aplicarFiltros/limparFiltros/ligarAutocompleteLocalizacao
+  // já checam `if (!elemento) return`, remover daqui não quebra nenhuma
+  // dessas funções.
   function removerFiltrosDetalhadosMobile() {
     if (!window.matchMedia('(max-width: 767px)').matches) return;
 
-    ['filtro-localizacao', 'filtro-tipo'].forEach(function (id) {
-      var elemento = document.getElementById(id);
-      var campo = elemento && elemento.closest('.filtros__campo');
-      if (campo) campo.remove();
-    });
-  }
-
-  function popularTipos(all) {
-    var select = document.getElementById('filtro-tipo');
-    if (!select) return;
-    var tipos = Array.from(new Set(all.map(function (i) { return i.tipo; }))).sort();
-    tipos.forEach(function (tipo) {
-      var option = document.createElement('option');
-      option.value = tipo;
-      option.textContent = tipoLabel(tipo);
-      select.appendChild(option);
-    });
+    var input = document.getElementById('filtro-localizacao');
+    var campo = input && input.closest('.filtros__campo');
+    if (campo) campo.remove();
   }
 
   function parseMoeda(valor) {
@@ -464,14 +449,12 @@
   function aplicarFiltros() {
     var segmentoAtivo = document.querySelector('.filtros__segmento-btn.is-active');
     var localizacaoInput = document.getElementById('filtro-localizacao');
-    var tipoSelect = document.getElementById('filtro-tipo');
     var precoMinInput = document.getElementById('filtro-preco-min');
     var precoMaxInput = document.getElementById('filtro-preco-max');
 
     state.modo = 'padrao';
     state.finalidade = segmentoAtivo ? segmentoAtivo.getAttribute('data-finalidade') : 'todos';
     state.localizacao = localizacaoInput ? localizacaoInput.value.trim() : '';
-    state.tipo = tipoSelect ? tipoSelect.value : '';
     state.precoMin = precoMinInput ? parseMoeda(precoMinInput.value) : '';
     state.precoMax = precoMaxInput ? parseMoeda(precoMaxInput.value) : '';
     state.mostrarTodos = false;
@@ -483,7 +466,6 @@
   // atualiza os resultados na hora — sem recarregar a página.
   function limparFiltros() {
     var localizacaoInput = document.getElementById('filtro-localizacao');
-    var tipoSelect = document.getElementById('filtro-tipo');
     var precoMinInput = document.getElementById('filtro-preco-min');
     var precoMaxInput = document.getElementById('filtro-preco-max');
 
@@ -492,7 +474,6 @@
       // dispara 'input' pra fechar a lista de sugestões, se estiver aberta
       localizacaoInput.dispatchEvent(new Event('input'));
     }
-    if (tipoSelect) tipoSelect.value = '';
     if (precoMinInput) precoMinInput.value = '';
     if (precoMaxInput) precoMaxInput.value = '';
 
@@ -505,7 +486,6 @@
     state.modo = 'padrao';
     state.finalidade = 'todos';
     state.localizacao = '';
-    state.tipo = '';
     state.precoMin = '';
     state.precoMax = '';
     state.mostrarTodos = false;
@@ -554,8 +534,8 @@
       });
     });
 
-    // Localização, tipo e preço: apenas guardam o valor digitado/selecionado,
-    // sem disparar busca — a busca só roda no clique do botão "Buscar".
+    // Localização e preço: apenas guardam o valor digitado, sem disparar
+    // busca — a busca só roda no clique do botão "Buscar".
 
     if (filtrosForm) {
       filtrosForm.addEventListener('submit', function (e) {
@@ -568,7 +548,7 @@
     if (verTodosBtn) {
       verTodosBtn.addEventListener('click', function () {
         // "Ver todos" remove o limite de 3 imóveis, mas continua respeitando
-        // o filtro atualmente ativo (finalidade, tipo, localização, preço,
+        // o filtro atualmente ativo (finalidade, localização, preço,
         // favoritos ou terrenos) — não deve mostrar imóveis fora do filtro.
         state.mostrarTodos = true;
         renderizarRegular();
@@ -625,7 +605,6 @@
         var terrenoEmVenda = state.finalidade === 'venda' && imovel.tipo === 'terreno';
         if (imovel.finalidade !== state.finalidade && !terrenoEmVenda) return false;
       }
-      if (state.tipo && imovel.tipo !== state.tipo) return false;
     }
 
     if (state.localizacao) {
@@ -890,7 +869,6 @@
       }
 
       removerFiltrosDetalhadosMobile();
-      popularTipos(state.all);
       ligarAutocompleteLocalizacao(state.all);
       ligarFiltros();
       ligarLinksHeader();
