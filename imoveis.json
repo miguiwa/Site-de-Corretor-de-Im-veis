@@ -1,0 +1,245 @@
+{
+  "imoveis": [
+    {
+      "id": "IMV001",
+      "titulo": "Casa contemporânea com piscina e área gourmet",
+      "finalidade": "venda",
+      "tipo": "casa",
+      "preco": 895000,
+      "localizacao": {
+        "bairro": "Jardim São Bento",
+        "cidade": "Porto Feliz",
+        "estado": "SP"
+      },
+      "area": 280,
+      "quartos": 3,
+      "banheiros": 3,
+      "vagas": 2,
+      "descricao": "Casa contemporânea com ambientes amplos e integrados, excelente iluminação natural e uma área externa completa para momentos de lazer com a família.",
+      "caracteristicas": [
+        "Piscina",
+        "Área gourmet",
+        "Churrasqueira",
+        "Suíte",
+        "Armários planejados"
+      ],
+      "imagens": {
+        "principal": "./assets/imoveis/IMV001/principal.jpeg",
+        "galeria": [
+          "./assets/imoveis/IMV001/foto-01.jpeg",
+          "./assets/imoveis/IMV001/foto-02.jpeg",
+          "./assets/imoveis/IMV001/foto-03.jpeg",
+          "./assets/imoveis/IMV001/foto-04.jpeg",
+          "./assets/imoveis/IMV001/foto-05.jpeg",
+          "./assets/imoveis/IMV001/foto-06.jpeg"
+        ]
+      }
+    },
+    {
+      "id": "IMV002",
+      "titulo": "Casa térrea em localização tranquila",
+      "finalidade": "venda",
+      "tipo": "casa",
+      "preco": 575000,
+      "localizacao": {
+        "bairro": "Vila América",
+        "cidade": "Porto Feliz",
+        "estado": "SP"
+      },
+      "area": 195,
+      "quartos": 3,
+      "banheiros": 2,
+      "vagas": 2,
+      "descricao": "Casa térrea confortável e bem distribuída, localizada em uma região residencial tranquila e próxima a comércios e serviços.",
+      "caracteristicas": [
+        "Quintal",
+        "Área gourmet",
+        "Churrasqueira",
+        "Garagem coberta",
+        "Jardim"
+      ],
+      "imagens": {
+        "principal": "./assets/imoveis/IMV002/principal.jpeg",
+        "galeria": [
+          "./assets/imoveis/IMV002/foto-01.jpeg",
+          "./assets/imoveis/IMV002/foto-02.jpeg",
+          "./assets/imoveis/IMV002/foto-03.jpeg",
+          "./assets/imoveis/IMV002/foto-04.jpeg",
+          "./assets/imoveis/IMV002/foto-05.jpeg",
+          "./assets/imoveis/IMV002/foto-06.jpeg",
+          "./assets/imoveis/IMV002/foto-07.jpeg"
+        ]
+      }
+    },
+    {
+      "id": "IMV003",
+      "titulo": "Casa espaçosa próxima ao centro",
+      "finalidade": "venda",
+      "tipo": "casa",
+      "preco": 690000,
+      "localizacao": {
+        "bairro": "Jardim Primavera",
+        "cidade": "Porto Feliz",
+        "estado": "SP"
+      },
+      "area": 220,
+      "quartos": 4,
+      "banheiros": 2,
+      "vagas": 2,
+      "descricao": "Casa espaçosa com quatro quartos, ambientes bem iluminados e excelente localização, ideal para famílias que procuram conforto e praticidade.",
+      "caracteristicas": [
+        "Suíte",
+        "Quintal amplo",
+        "Área gourmet",
+        "Churrasqueira",
+        "Armários planejados"
+      ],
+      "imagens": {
+        "principal": "./assets/imoveis/IMV003/principal.jpeg",
+        "galeria": [
+          "./assets/imoveis/IMV003/foto-01.jpeg",
+          "./assets/imoveis/IMV003/foto-02.jpeg",
+          "./assets/imoveis/IMV003/foto-03.jpeg",
+          "./assets/imoveis/IMV003/foto-04.jpeg",
+          "./assets/imoveis/IMV003/foto-05.jpeg",
+          "./assets/imoveis/IMV003/foto-06.jpeg"
+        ]
+      }
+    },
+    {
+      "id": "IMV004",
+      "titulo": "Casa aconchegante com quintal amplo",
+      "finalidade": "aluguel",
+      "tipo": "casa",
+      "preco": 2850,
+      "localizacao": {
+        "bairro": "Jardim Bela Vista",
+        "cidade": "Porto Feliz",
+        "estado": "SP"
+      },
+      "area": 160,
+      "quartos": 3,
+      "banheiros": 2,
+      "vagas": 2,
+      "descricao": "Casa aconchegante e bem conservada, com ambientes funcionais e um amplo quintal, ideal para uma família.",
+      "caracteristicas": [
+        "Quintal",
+        "Churrasqueira",
+        "Garagem coberta",
+        "Área de serviço",
+        "Armários planejados"
+      ],
+      "imagens": {
+        "principal": "./assets/imoveis/IMV004/principal.jpeg",
+        "galeria": [
+          "./assets/imoveis/IMV004/foto-01.jpeg",
+          "./assets/imoveis/IMV004/foto-02.jpeg",
+          "./assets/imoveis/IMV004/foto-03.jpeg",
+          "./assets/imoveis/IMV004/foto-04.jpeg",
+          "./assets/imoveis/IMV004/foto-05.jpeg",
+          "./assets/imoveis/IMV004/foto-06.jpeg"
+        ]
+      }
+    },
+    {
+      "id": "IMV005",
+      "titulo": "Casa moderna em bairro residencial",
+      "finalidade": "aluguel",
+      "tipo": "casa",
+      "preco": 3600,
+      "localizacao": {
+        "bairro": "Residencial das Palmeiras",
+        "cidade": "Porto Feliz",
+        "estado": "SP"
+      },
+      "area": 210,
+      "quartos": 3,
+      "banheiros": 3,
+      "vagas": 2,
+      "descricao": "Casa moderna em bairro residencial, com espaços confortáveis, boa iluminação e área externa ideal para o dia a dia.",
+      "caracteristicas": [
+        "Suíte",
+        "Área gourmet",
+        "Churrasqueira",
+        "Jardim",
+        "Ar-condicionado"
+      ],
+      "imagens": {
+        "principal": "./assets/imoveis/IMV005/principal.jpeg",
+        "galeria": [
+          "./assets/imoveis/IMV005/foto-01.jpeg",
+          "./assets/imoveis/IMV005/foto-02.jpeg",
+          "./assets/imoveis/IMV005/foto-03.jpeg",
+          "./assets/imoveis/IMV005/foto-04.jpeg",
+          "./assets/imoveis/IMV005/foto-05.jpeg"
+        ]
+      }
+    },
+    {
+      "id": "IMV006",
+      "titulo": "Casa confortável próxima a áreas comerciais",
+      "finalidade": "aluguel",
+      "tipo": "casa",
+      "preco": 2400,
+      "localizacao": {
+        "bairro": "Vila São José",
+        "cidade": "Porto Feliz",
+        "estado": "SP"
+      },
+      "area": 135,
+      "quartos": 2,
+      "banheiros": 2,
+      "vagas": 1,
+      "descricao": "Casa prática e confortável, situada em uma região tranquila e com fácil acesso a mercados, escolas e outros serviços.",
+      "caracteristicas": [
+        "Quintal",
+        "Garagem coberta",
+        "Área de serviço",
+        "Jardim",
+        "Cozinha planejada"
+      ],
+      "imagens": {
+        "principal": "./assets/imoveis/IMV006/principal.jpeg",
+        "galeria": [
+          "./assets/imoveis/IMV006/foto-01.jpeg",
+          "./assets/imoveis/IMV006/foto-02.jpeg",
+          "./assets/imoveis/IMV006/foto-03.jpeg",
+          "./assets/imoveis/IMV006/foto-04.jpeg",
+          "./assets/imoveis/IMV006/foto-05.jpeg",
+          "./assets/imoveis/IMV006/foto-06.jpeg",
+          "./assets/imoveis/IMV006/foto-07.jpeg"
+        ]
+      }
+    },
+    {
+      "id": "IMV007",
+      "titulo": "Terreno amplo em excelente localização",
+      "finalidade": "venda",
+      "tipo": "terreno",
+      "preco": 385000,
+      "localizacao": {
+        "bairro": "Jardim das Acácias",
+        "cidade": "Porto Feliz",
+        "estado": "SP"
+      },
+      "area": 450,
+      "quartos": null,
+      "banheiros": null,
+      "vagas": null,
+      "descricao": "Terreno amplo, plano e bem localizado, ideal para construção residencial em uma região tranquila e de fácil acesso.",
+      "caracteristicas": [
+        "Terreno plano",
+        "Rua asfaltada",
+        "Boa localização",
+        "Rede de água",
+        "Rede de energia"
+      ],
+      "imagens": {
+        "principal": "./assets/imoveis/IMV007/principal.jpeg",
+        "galeria": []
+      }
+    }
+  ],
+  "whatsapp": "5515996727555"
+}
+

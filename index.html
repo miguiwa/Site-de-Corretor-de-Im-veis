@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Corretor de Imóveis | Encontre o imóvel certo, no lugar certo</title>
+
+  <meta name="description"
+    content="Imóveis para comprar e alugar com atendimento especializado. Apartamentos, casas, coberturas e imóveis comerciais.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+
+  <header class="header" data-header>
+    <div class="header__inner container">
+
+      <a href="./index.html" class="header__logo">
+        <img src="./img/logo.jpeg" alt="Altura Imóveis">
+      </a>
+
+      <button class="header__toggle" data-menu-toggle aria-label="Abrir menu" aria-expanded="false"
+        aria-controls="nav-principal">
+        <span class="header__toggle-bar"></span>
+        <span class="header__toggle-bar"></span>
+        <span class="header__toggle-bar"></span>
+      </button>
+
+      <nav class="nav" id="nav-principal" data-nav>
+        <ul class="nav__list">
+          <li><a href="#imoveis" class="nav__link" data-filtro-header="comprar">Comprar</a></li>
+          <li><a href="#imoveis" class="nav__link" data-filtro-header="alugar">Alugar</a></li>
+          <li><a href="#imoveis" class="nav__link" data-filtro-header="terrenos">Terrenos</a></li>
+        </ul>
+      </nav>
+
+      <a href="#" class="header__cta">
+        <svg class="header__cta-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+          <path
+            d="M12.001 2C6.478 2 2 6.477 2 12c0 1.9.529 3.68 1.447 5.198L2.05 22l4.918-1.34A9.955 9.955 0 0 0 12 22c5.523 0 10-4.477 10-10S17.524 2 12.001 2zm0 18.156a8.13 8.13 0 0 1-4.146-1.135l-.298-.177-3.083.84.822-3.005-.194-.31A8.132 8.132 0 0 1 3.845 12c0-4.502 3.653-8.156 8.156-8.156 4.502 0 8.156 3.654 8.156 8.156 0 4.502-3.654 8.156-8.156 8.156z" />
+        </svg>
+        <span>Fale no WhatsApp</span>
+      </a>
+
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__media" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1757359056339-22968344cce6?q=80&w=2400&auto=format&fit=crop" alt=""
+          class="hero__image">
+        <div class="hero__overlay"></div>
+      </div>
+
+      <div class="hero__content container">
+        <h1 class="hero__title">O lugar certo para chamar de lar.</h1>
+        <p class="hero__subtitle">
+          Atendimento próximo e conhecimento real do mercado local, para encontrar
+          o imóvel que combina com a vida que você quer viver.
+        </p>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         FILTROS RÁPIDOS
+         ====================================================================== -->
+    <section class="filtros" aria-label="Filtros rápidos de imóveis">
+      <div class="container">
+        <form class="filtros__painel" id="filtros-form">
+
+          <div class="filtros__detalhados">
+            <div class="filtros__campo">
+              <label class="filtros__label" for="filtro-localizacao">Localização</label>
+              <input class="filtros__input" id="filtro-localizacao" type="text" placeholder="Bairro ou cidade"
+                autocomplete="off">
+            </div>
+
+            <div class="filtros__campo">
+              <label class="filtros__label" for="filtro-tipo">Tipo</label>
+              <select class="filtros__select" id="filtro-tipo">
+                <option value="">Todos</option>
+              </select>
+            </div>
+
+            <div class="filtros__campo">
+              <label class="filtros__label" for="filtro-preco-min">Preço mínimo</label>
+              <input class="filtros__input" id="filtro-preco-min" type="text" inputmode="numeric"
+                placeholder="Preço mínimo" autocomplete="off">
+            </div>
+
+            <div class="filtros__campo">
+              <label class="filtros__label" for="filtro-preco-max">Preço máximo</label>
+              <input class="filtros__input" id="filtro-preco-max" type="text" inputmode="numeric"
+                placeholder="Sem limite" autocomplete="off">
+            </div>
+
+            <button type="submit" class="filtros__buscar" data-buscar>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6" />
+                <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+              Buscar
+            </button>
+
+            <button type="button" class="filtros__limpar" data-limpar-filtros>
+              Limpar filtros
+            </button>
+          </div>
+
+          <div class="filtros__rapidos">
+            <div class="filtros__segmento" role="tablist" aria-label="Todos, comprar ou alugar">
+              <button type="button" class="filtros__segmento-btn is-active" data-finalidade="todos" role="tab"
+                aria-selected="true">Todos</button>
+              <button type="button" class="filtros__segmento-btn" data-finalidade="venda" role="tab"
+                aria-selected="false">Comprar</button>
+              <button type="button" class="filtros__segmento-btn" data-finalidade="aluguel" role="tab"
+                aria-selected="false">Alugar</button>
+            </div>
+
+            <button type="button" class="filtros__favoritos" data-filtro-favoritos aria-pressed="false">
+              <svg class="filtros__favoritos-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M12 2.5l2.917 6.104 6.583.79-4.833 4.617 1.25 6.489L12 17.44l-5.917 3.06 1.25-6.489L2.5 9.394l6.583-.79L12 2.5z" />
+              </svg>
+              Favoritos
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         IMÓVEIS
+         ====================================================================== -->
+    <section class="imoveis" id="imoveis" aria-labelledby="imoveis-titulo">
+      <div class="container">
+        <p class="section__eyebrow section__eyebrow--claro">Catálogo</p>
+        <h2 id="imoveis-titulo" class="section__titulo section__titulo--claro">Imóveis disponíveis</h2>
+
+        <div class="grid-regular" id="grid-regular" data-estado="carregando"></div>
+
+        <button type="button" class="ver-todos" data-ver-todos hidden>
+          Ver todos
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8h9M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       OVERLAY — Detalhe do imóvel
+       ======================================================================== -->
+  <div class="imovel-overlay" id="imovel-overlay" hidden>
+    <div class="imovel-overlay__scrim" data-overlay-fechar></div>
+    <div class="imovel-overlay__painel" role="dialog" aria-modal="true" aria-labelledby="imovel-overlay-titulo">
+      <button type="button" class="imovel-overlay__fechar" data-overlay-fechar aria-label="Fechar detalhes">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </button>
+      <div class="imovel-overlay__conteudo" id="imovel-overlay-conteudo"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+
+      <div class="footer__marca">
+        <a href="./index.html" class="footer__logo" aria-label="Maira Fortes — Início">
+          <img src="./img/logo.jpeg" alt="Maira Fortes — Corretora de Imóveis">
+        </a>
+        <div class="footer__identidade">
+          <p class="footer__nome">Maira Fortes</p>
+          <p class="footer__profissao">Corretora de Imóveis</p>
+          <p class="footer__slogan">Seu próximo imóvel começa aqui.</p>
+        </div>
+      </div>
+
+      <div class="footer__ctas">
+        <a href="https://wa.me/5515996727555" class="footer__cta footer__cta--whatsapp" target="_blank"
+          rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path
+              d="M12.001 2C6.478 2 2 6.477 2 12c0 1.9.529 3.68 1.447 5.198L2.05 22l4.918-1.34A9.955 9.955 0 0 0 12 22c5.523 0 10-4.477 10-10S17.524 2 12.001 2zm0 18.156a8.13 8.13 0 0 1-4.146-1.135l-.298-.177-3.083.84.822-3.005-.194-.31A8.132 8.132 0 0 1 3.845 12c0-4.502 3.653-8.156 8.156-8.156 4.502 0 8.156 3.654 8.156 8.156 0 4.502-3.654 8.156-8.156 8.156z" />
+          </svg>
+          Fale no WhatsApp
+        </a>
+
+        <a href="https://www.instagram.com/mairafortes.corretoradeimoveis" class="footer__cta footer__cta--instagram"
+          target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="17.35" cy="6.65" r="1.1" fill="currentColor" />
+          </svg>
+          @mairafortes.corretoradeimoveis
+        </a>
+      </div>
+
+    </div>
+
+    <div class="footer__base">
+      <div class="container footer__base-inner">
+        <span class="footer__creci">CRECI-SP 320592-F</span>
+        <span class="footer__copyright">© 2026 Maira Fortes. Todos os direitos reservados.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

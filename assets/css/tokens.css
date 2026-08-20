@@ -1,0 +1,210 @@
+
+/* ==========================================================================
+   TOKENS: Sistema de Design — "Futurismo Arquitetônico"
+   Variáveis globais de cor, tipografia, espaçamento e layout.
+   ========================================================================== */
+
+:root {
+
+/* ------------------------------------------------------------------------
+   CORES — Fundo e Superfícies
+   ------------------------------------------------------------------------ */
+
+--cor-fundo: #090C0C;
+--cor-superficie: #101514;
+--cor-superficie-elevada: #171D1C;
+
+
+/* ------------------------------------------------------------------------
+   CORES — Main
+   ------------------------------------------------------------------------ */
+
+--cor-fundo-main: #E8E1D2;
+--cor-card: #101514;
+--cor-card-elevado: #171D1C;
+
+
+/* ------------------------------------------------------------------------
+   CORES — Textos
+   ------------------------------------------------------------------------ */
+
+--cor-texto: #F4F1E8;
+--cor-texto-secundario: #A8AAA3;
+--cor-texto-fraco: #686D69;
+
+
+/* ------------------------------------------------------------------------
+   CORES — Destaque
+   ------------------------------------------------------------------------ */
+
+--cor-destaque: #D6B36A;
+--cor-destaque-hover: #E7C982;
+--cor-destaque-escuro: #9B783A;
+--cor-destaque-suave: #2A2418;
+
+
+/* ------------------------------------------------------------------------
+   CORES — Bordas
+   ------------------------------------------------------------------------ */
+
+--cor-borda: rgba(244, 241, 232, 0.12);
+--cor-borda-forte: rgba(214, 179, 106, 0.30);
+
+  /* ------------------------------------------------------------------------
+     TIPOGRAFIA — Famílias
+     ------------------------------------------------------------------------ */
+
+  /* Títulos, números e elementos de destaque */
+  --fonte-titulo: 'Space Grotesk', sans-serif;
+
+  /* Textos, menus, descrições e elementos da interface */
+  --fonte-corpo: 'Inter', sans-serif;
+
+
+  /* ------------------------------------------------------------------------
+     TIPOGRAFIA — Tamanhos
+     ------------------------------------------------------------------------ */
+
+  /* Título principal da página */
+  --tamanho-titulo-principal: clamp(64px, 9vw, 144px);
+  --altura-linha-titulo-principal: 0.88;
+  --espacamento-letras-titulo-principal: -0.055em;
+
+
+  /* Título de seção */
+  --tamanho-titulo-secao: clamp(48px, 6vw, 96px);
+  --altura-linha-titulo-secao: 0.92;
+  --espacamento-letras-titulo-secao: -0.045em;
+
+
+  /* Subtítulo / título menor */
+  --tamanho-subtitulo: clamp(24px, 3vw, 48px);
+  --altura-linha-subtitulo: 1;
+  --espacamento-letras-subtitulo: -0.025em;
+
+
+  /* Texto grande */
+  --tamanho-texto-grande: 18px;
+  --altura-linha-texto-grande: 1.6;
+
+
+  /* Texto padrão */
+  --tamanho-texto: 16px;
+  --altura-linha-texto: 1.6;
+
+
+  /* Texto pequeno */
+  --tamanho-texto-pequeno: 13px;
+  --altura-linha-texto-pequeno: 1.5;
+
+
+  /* Preços */
+  --tamanho-preco: 32px;
+  --altura-linha-preco: 1.1;
+
+
+  /* Pequenas etiquetas e informações técnicas */
+  --tamanho-etiqueta: 12px;
+  --altura-linha-etiqueta: 1.4;
+  --espacamento-letras-etiqueta: 0.06em;
+
+
+  /* ------------------------------------------------------------------------
+     TIPOGRAFIA — Pesos
+     ------------------------------------------------------------------------ */
+
+  --peso-normal: 400;
+  --peso-medio: 500;
+  --peso-semi-negrito: 600;
+  --peso-negrito: 700;
+
+
+  /* ------------------------------------------------------------------------
+     ESPAÇAMENTO — Escala
+     ------------------------------------------------------------------------ */
+
+  --espacamento-4: 4px;
+  --espacamento-8: 8px;
+  --espacamento-12: 12px;
+  --espacamento-16: 16px;
+  --espacamento-24: 24px;
+  --espacamento-32: 32px;
+  --espacamento-48: 48px;
+  --espacamento-64: 64px;
+  --espacamento-96: 96px;
+  --espacamento-128: 128px;
+  --espacamento-160: 160px;
+
+
+  /* ------------------------------------------------------------------------
+     ESPAÇAMENTO — Seções
+     ------------------------------------------------------------------------ */
+
+  --espacamento-secao-desktop: var(--espacamento-128);
+  --espacamento-secao-mobile: var(--espacamento-96);
+
+
+  /* ------------------------------------------------------------------------
+     LAYOUT — Container
+     ------------------------------------------------------------------------ */
+
+  --largura-maxima-container: 1440px;
+  --largura-maxima-container-amplo: 1600px;
+
+  --margem-lateral-container-desktop: 48px;
+  --margem-lateral-container-mobile: var(--espacamento-24);
+
+
+  /* ------------------------------------------------------------------------
+     LAYOUT — Grade
+     ------------------------------------------------------------------------ */
+
+  --colunas-grade: 12;
+  --espacamento-grade-desktop: var(--espacamento-24);
+  --espacamento-grade-mobile: var(--espacamento-16);
+
+
+  /* ------------------------------------------------------------------------
+     PONTOS DE QUEBRA
+
+     Valores utilizados diretamente nas media queries.
+     Variáveis CSS não funcionam dentro de @media.
+
+     Celular:    < 768px
+     Tablet:     768px – 1023px
+     Computador: 1024px – 1439px
+     Tela ampla: >= 1440px
+     ------------------------------------------------------------------------ */
+
+
+  /* ------------------------------------------------------------------------
+     BORDAS — Arredondamento
+     ------------------------------------------------------------------------ */
+
+  --arredondamento-pequeno: 4px;
+  --arredondamento-medio: 8px;
+  --arredondamento-grande: 12px;
+
+
+  /* ------------------------------------------------------------------------
+     SOMBRAS
+
+     Em uma interface escura, sombras fortes são pouco úteis.
+     Priorizamos contraste entre superfícies e bordas.
+     ------------------------------------------------------------------------ */
+
+  --sombra-pequena: 0 4px 12px rgba(0, 0, 0, 0.20);
+  --sombra-media: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --sombra-grande: 0 16px 40px rgba(0, 0, 0, 0.30);
+
+
+  /* ------------------------------------------------------------------------
+     ANIMAÇÃO
+     ------------------------------------------------------------------------ */
+
+  --curva-animacao-entrada: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --duracao-rapida: 200ms;
+  --duracao-media: 400ms;
+  --duracao-lenta: 600ms;
+}
