@@ -50,6 +50,40 @@
 })();
 
 /* ============================================================================
+   BLOQUEIO DE ZOOM NO CELULAR
+   Navegadores atuais (iOS Safari, Chrome Android) ignoram de propósito o
+   maximum-scale/user-scalable=no da tag <meta viewport> por acessibilidade,
+   então o bloqueio precisa ser feito interceptando os próprios gestos de
+   toque: pinça (dois dedos) e duplo toque rápido.
+   ============================================================================ */
+
+(function () {
+  'use strict';
+
+  // Pinça com dois dedos
+  document.addEventListener('touchmove', function (evento) {
+    if (evento.touches.length > 1) {
+      evento.preventDefault();
+    }
+  }, { passive: false });
+
+  // Gesto de pinça no Safari/iOS (evento próprio, não passa por touchmove)
+  document.addEventListener('gesturestart', function (evento) {
+    evento.preventDefault();
+  });
+
+  // Duplo toque rápido (double-tap-to-zoom)
+  var ultimoToque = 0;
+  document.addEventListener('touchend', function (evento) {
+    var agora = Date.now();
+    if (agora - ultimoToque <= 300) {
+      evento.preventDefault();
+    }
+    ultimoToque = agora;
+  }, { passive: false });
+})();
+
+/* ============================================================================
    CATÁLOGO DE IMÓVEIS — fetch do imoveis.json, filtros, grid único de imóveis
    grid regular e overlay de detalhe. Nenhum dado de imóvel é hardcoded aqui:
    tudo vem do JSON.
