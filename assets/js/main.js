@@ -411,6 +411,23 @@
 
   /* -- Filtros -------------------------------------------------------------- */
 
+  // No celular, os campos de Localização e Tipo são removidos do DOM (não
+  // apenas escondidos via CSS), para simplificar o painel de filtros a
+  // Todos/Comprar/Alugar + Preço mínimo/máximo. Roda uma única vez, no
+  // carregamento — não reage a resize (uso real é em tela de celular fixa,
+  // não em redimensionamento de janela). Como aplicarFiltros/limparFiltros/
+  // popularTipos/ligarAutocompleteLocalizacao já checam `if (!elemento) return`,
+  // removê-los daqui não quebra nenhuma dessas funções.
+  function removerFiltrosDetalhadosMobile() {
+    if (!window.matchMedia('(max-width: 767px)').matches) return;
+
+    ['filtro-localizacao', 'filtro-tipo'].forEach(function (id) {
+      var elemento = document.getElementById(id);
+      var campo = elemento && elemento.closest('.filtros__campo');
+      if (campo) campo.remove();
+    });
+  }
+
   function popularTipos(all) {
     var select = document.getElementById('filtro-tipo');
     if (!select) return;
@@ -872,6 +889,7 @@
         headerCta.setAttribute('rel', 'noopener');
       }
 
+      removerFiltrosDetalhadosMobile();
       popularTipos(state.all);
       ligarAutocompleteLocalizacao(state.all);
       ligarFiltros();

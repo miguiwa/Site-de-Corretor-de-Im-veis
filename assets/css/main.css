@@ -1321,7 +1321,7 @@ body {
     .hero {
         /* Em telas estreitas, uma hero de 100vh recorta demais fotos
            horizontais. A altura limitada preserva melhor a composição. */
-        min-height: clamp(520px, 72svh, 640px);
+        min-height: clamp(560px, 78svh, 680px);
     }
 
     .hero__content {
@@ -1340,6 +1340,27 @@ body {
     .filtros__campo {
         flex: 1 1 130px;
         min-width: 0;
+    }
+
+    /* Com Localização e Tipo removidos do DOM no celular (ver
+       removerFiltrosDetalhadosMobile em main.js), só sobram os campos de
+       preço + os botões Buscar/Limpar. Grid de 2 colunas para os preços,
+       Buscar ocupando a largura toda e Limpar centralizado abaixo. */
+    .filtros__detalhados {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: end;
+        gap: var(--espacamento-12);
+    }
+
+    .filtros__buscar {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .filtros__limpar {
+        grid-column: 1 / -1;
+        justify-self: center;
     }
 
     .imovel-overlay__painel {
