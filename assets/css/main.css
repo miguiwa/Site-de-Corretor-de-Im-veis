@@ -122,6 +122,7 @@ body {
 .header__cta {
     display: flex;
     align-items: center;
+    justify-self: end;
     gap: var(--espacamento-8);
 
     padding: var(--espacamento-12) var(--espacamento-24);
@@ -1321,7 +1322,11 @@ body {
     }
 
     .header__cta {
-        padding: var(--espacamento-8) var(--espacamento-16);
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 50%;
     }
 
     .hero {
