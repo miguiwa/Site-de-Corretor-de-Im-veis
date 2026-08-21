@@ -127,6 +127,9 @@
     '</g></svg>'
   );
 
+  var LIMITE_INICIAL = 6;
+  var INCREMENTO_VER_MAIS = 6;
+
   var state = {
     all: [],
     modo: 'padrao', // 'padrao' | 'terrenos' | 'favoritos'
@@ -134,10 +137,8 @@
     localizacao: '',
     precoMin: '',
     precoMax: '',
-    mostrarTodos: false
+    quantidadeVisivel: LIMITE_INICIAL
   };
-
-  var LIMITE_INICIAL = 3;
 
   /* -- Favoritos (localStorage) ------------------------------------------------ */
 
@@ -208,6 +209,20 @@
   function localizacaoTexto(imovel) {
     var loc = imovel.localizacao || {};
     return [loc.bairro, loc.cidade].filter(Boolean).join(', ');
+  }
+
+  // Escapa texto livre vindo do imoveis.json (título, descrição,
+  // características, bairro/cidade) antes de ir pro innerHTML. Hoje quem
+  // edita o JSON é a própria corretora, mas título/descrição/características
+  // são texto livre — sem isso, um "<" ou ">" digitado sem querer no JSON
+  // (ou um campo colado de outro lugar) quebra o layout ou insere HTML.
+  function escaparHTML(texto) {
+    return (texto == null ? '' : String(texto))
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   /* -- Busca de localização: normalização, tolerância a acento/maiúscula
@@ -467,14 +482,10 @@
   function definirFinalidade(valor) {
     state.modo = 'padrao';
     state.finalidade = valor;
-    // Não reseta state.mostrarTodos: se o usuário já tinha clicado em
-    // "Ver todos", trocar o filtro rápido não deve voltar a limitar a
-    // lista a 3 imóveis (evita "perder" um imóvel visto mais abaixo).
-    document.querySelectorAll('.filtros__segmento-btn').forEach(function (b) {
-      var ativo = b.getAttribute('data-finalidade') === valor;
-      b.classList.toggle('is-active', ativo);
-      b.setAttribute('aria-selected', ativo ? 'true' : 'false');
-    });
+    // Não reseta state.quantidadeVisivel: se o usuário já tinha clicado em
+    // "Ver mais", trocar o filtro rápido não deve voltar a limitar a
+    // lista aos 6 imóveis iniciais (evita "perder" um imóvel visto mais abaixo).
+    sincronizarBotoesFiltro();
     renderizarRegular();
   }
 
@@ -491,7 +502,7 @@
     state.localizacao = localizacaoInput ? localizacaoInput.value.trim() : '';
     state.precoMin = precoMinInput ? parseMoeda(precoMinInput.value) : '';
     state.precoMax = precoMaxInput ? parseMoeda(precoMaxInput.value) : '';
-    state.mostrarTodos = false;
+    state.quantidadeVisivel = LIMITE_INICIAL;
 
     renderizarRegular();
   }
@@ -511,19 +522,14 @@
     if (precoMinInput) precoMinInput.value = '';
     if (precoMaxInput) precoMaxInput.value = '';
 
-    document.querySelectorAll('.filtros__segmento-btn').forEach(function (b) {
-      var padrao = b.getAttribute('data-finalidade') === 'todos';
-      b.classList.toggle('is-active', padrao);
-      b.setAttribute('aria-selected', padrao ? 'true' : 'false');
-    });
-
     state.modo = 'padrao';
     state.finalidade = 'todos';
     state.localizacao = '';
     state.precoMin = '';
     state.precoMax = '';
-    state.mostrarTodos = false;
+    state.quantidadeVisivel = LIMITE_INICIAL;
 
+    sincronizarBotoesFiltro();
     renderizarRegular();
   }
 
@@ -578,13 +584,24 @@
       });
     }
 
-    var verTodosBtn = document.querySelector('[data-ver-todos]');
-    if (verTodosBtn) {
-      verTodosBtn.addEventListener('click', function () {
-        // "Ver todos" remove o limite de 3 imóveis, mas continua respeitando
-        // o filtro atualmente ativo (finalidade, localização, preço,
-        // favoritos ou terrenos) — não deve mostrar imóveis fora do filtro.
-        state.mostrarTodos = true;
+    var verMaisBtn = document.querySelector('[data-ver-mais]');
+    if (verMaisBtn) {
+      verMaisBtn.addEventListener('click', function () {
+        // "Ver mais" soma mais 6 imóveis aos que já estavam visíveis (sem
+        // remover os atuais), continuando a respeitar o filtro ativo
+        // (finalidade, localização, preço, favoritos ou terrenos) — nunca
+        // passa da quantidade de imóveis que combinam com o filtro.
+        var totalFiltrado = state.all.filter(combina).length;
+        state.quantidadeVisivel = Math.min(state.quantidadeVisivel + INCREMENTO_VER_MAIS, totalFiltrado);
+        renderizarRegular();
+      });
+    }
+
+    var recolherBtn = document.querySelector('[data-recolher]');
+    if (recolherBtn) {
+      recolherBtn.addEventListener('click', function () {
+        // Volta a exibir somente os imóveis iniciais (LIMITE_INICIAL).
+        state.quantidadeVisivel = LIMITE_INICIAL;
         renderizarRegular();
       });
     }
@@ -598,11 +615,34 @@
     if (favoritosBtn) {
       favoritosBtn.addEventListener('click', function () {
         state.modo = state.modo === 'favoritos' ? 'padrao' : 'favoritos';
+        sincronizarBotoesFiltro();
         renderizarRegular();
       });
     }
 
     bloquearLetrasPreco();
+  }
+
+  // Garante que os botões Todos/Comprar/Alugar e o botão Favoritos reflitam
+  // o state.modo atual, mesmo quando quem mudou o modo foi outro controle
+  // (ex: Favoritos, ou o link "Terrenos" do header). Sem isso, dois filtros
+  // diferentes podiam aparecer "ativos" ao mesmo tempo, ou o filtro visível
+  // não bater com o que os botões mostram.
+  function sincronizarBotoesFiltro() {
+    var emModoEspecial = state.modo === 'favoritos' || state.modo === 'terrenos';
+
+    document.querySelectorAll('.filtros__segmento-btn').forEach(function (b) {
+      var ativo = !emModoEspecial && b.getAttribute('data-finalidade') === state.finalidade;
+      b.classList.toggle('is-active', ativo);
+      b.setAttribute('aria-selected', ativo ? 'true' : 'false');
+    });
+
+    var favoritosBtn = document.querySelector('[data-filtro-favoritos]');
+    if (favoritosBtn) {
+      var favAtivo = state.modo === 'favoritos';
+      favoritosBtn.classList.toggle('is-active', favAtivo);
+      favoritosBtn.setAttribute('aria-pressed', favAtivo ? 'true' : 'false');
+    }
   }
 
   // Liga os links do header (Comprar, Alugar, Terrenos) ao grid de imóveis
@@ -617,7 +657,8 @@
           definirFinalidade('aluguel');
         } else if (modo === 'terrenos') {
           state.modo = 'terrenos';
-          state.mostrarTodos = false;
+          state.quantidadeVisivel = LIMITE_INICIAL;
+          sincronizarBotoesFiltro();
           renderizarRegular();
         }
       });
@@ -654,19 +695,20 @@
   function cardRegularHTML(imovel) {
     var imagens = getImagens(imovel);
     var favorito = isFavorito(imovel.id);
+    var titulo = escaparHTML(imovel.titulo);
     return (
       '<article class="card-regular" data-id="' + imovel.id + '" tabindex="0" role="button" ' +
-      'aria-label="Ver detalhes de ' + imovel.titulo + '">' +
+      'aria-label="Ver detalhes de ' + titulo + '">' +
       '<div class="card-regular__media">' +
-      imgTag(imagens[0] || PLACEHOLDER_IMG, imovel.titulo) +
+      imgTag(imagens[0] || PLACEHOLDER_IMG, titulo) +
       '<span class="card-regular__tag">' + disponibilidadeLabel(imovel) + '</span>' +
       '<button type="button" class="card-regular__favorito' + (favorito ? ' is-ativo' : '') + '" ' +
       'data-favorito aria-pressed="' + (favorito ? 'true' : 'false') + '" ' +
-      'aria-label="Favoritar ' + imovel.titulo + '">' + ICONS.coracao + '</button>' +
+      'aria-label="Favoritar ' + titulo + '">' + ICONS.coracao + '</button>' +
       '</div>' +
       '<div class="card-regular__corpo">' +
-      '<p class="card-regular__local">' + ICONS.pin + localizacaoTexto(imovel) + '</p>' +
-      '<h3 class="card-regular__titulo">' + imovel.titulo + '</h3>' +
+      '<p class="card-regular__local">' + ICONS.pin + escaparHTML(localizacaoTexto(imovel)) + '</p>' +
+      '<h3 class="card-regular__titulo">' + titulo + '</h3>' +
       '<div class="card-regular__rodape">' +
       '<span class="card-regular__preco">' + formatarPreco(imovel) + '</span>' +
       '<div class="card-regular__specs">' +
@@ -687,7 +729,8 @@
 
     var base = state.all.filter(combina);
 
-    var verTodosBtn = document.querySelector('[data-ver-todos]');
+    var verMaisBtn = document.querySelector('[data-ver-mais]');
+    var recolherBtn = document.querySelector('[data-recolher]');
 
     if (!base.length) {
       var mensagemVazia = state.modo === 'favoritos'
@@ -695,17 +738,28 @@
         : 'Nenhum imóvel encontrado com esses filtros.';
       regularGrid.innerHTML = '<p class="grid-mensagem">' + mensagemVazia + '</p>';
       regularGrid.dataset.estado = 'vazio';
-      if (verTodosBtn) verTodosBtn.hidden = true;
+      if (verMaisBtn) verMaisBtn.hidden = true;
+      if (recolherBtn) recolherBtn.hidden = true;
       return;
     }
 
-    var visiveis = state.mostrarTodos ? base : base.slice(0, LIMITE_INICIAL);
+    // Carregamento progressivo: mostra sempre os `quantidadeVisivel`
+    // primeiros imóveis do resultado filtrado (o JSON já está em memória em
+    // state.all — nenhuma busca nova acontece aqui, só fatiamos o array).
+    var visiveis = base.slice(0, state.quantidadeVisivel);
 
     regularGrid.innerHTML = visiveis.map(cardRegularHTML).join('');
     regularGrid.dataset.estado = 'pronto';
 
-    if (verTodosBtn) {
-      verTodosBtn.hidden = state.mostrarTodos || base.length <= LIMITE_INICIAL;
+    if (verMaisBtn) {
+      // Só existem mais imóveis pra carregar se o que está visível ainda
+      // não cobre todo o resultado filtrado.
+      verMaisBtn.hidden = visiveis.length >= base.length;
+    }
+    if (recolherBtn) {
+      // Só faz sentido recolher se, de fato, mais do que o limite inicial
+      // está sendo exibido no momento.
+      recolherBtn.hidden = visiveis.length <= LIMITE_INICIAL;
     }
 
     regularGrid.querySelectorAll('[data-id]').forEach(function (el) {
@@ -744,6 +798,17 @@
   var galeriaAtual = [];
   var galeriaIndice = 0;
 
+  // Elemento que tinha o foco antes de abrir o overlay (card ou link),
+  // pra devolver o foco pra ele quando o overlay fechar — sem isso, quem
+  // navega por teclado perde a posição na página ao fechar o modal.
+  var elementoAntesDoOverlay = null;
+
+  function elementosFocaveisNoOverlay() {
+    var seletor = 'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    return Array.prototype.slice.call(overlay.querySelectorAll(seletor))
+      .filter(function (el) { return el.offsetParent !== null; });
+  }
+
   function whatsappLink(imovel) {
     var numero = (state.whatsapp || '').replace(/\D/g, '');
     var texto = encodeURIComponent('Olá! Tenho interesse no imóvel "' + imovel.titulo + '" (código ' + imovel.id + ').');
@@ -754,18 +819,23 @@
     var galeria = getImagens(imovel);
     if (!galeria.length) galeria = [PLACEHOLDER_IMG];
 
+    var titulo = escaparHTML(imovel.titulo);
+    var descricao = escaparHTML(imovel.descricao);
+    var local = escaparHTML(localizacaoTexto(imovel));
+    var estado = escaparHTML(imovel.localizacao && imovel.localizacao.estado);
+
     var miniaturas = galeria.map(function (src, i) {
       return '<button type="button" class="' + (i === 0 ? 'is-ativa' : '') + '" data-src="' + src + '">' +
-        imgTag(src, imovel.titulo + ' - foto ' + (i + 1)) + '</button>';
+        imgTag(src, titulo + ' - foto ' + (i + 1)) + '</button>';
     }).join('');
 
     var caracteristicas = (imovel.caracteristicas || []).map(function (c) {
-      return '<li>' + c + '</li>';
+      return '<li>' + escaparHTML(c) + '</li>';
     }).join('');
 
     return (
       '<div class="detalhe__galeria-principal" id="detalhe-galeria-principal">' +
-      imgTag(galeria[0], imovel.titulo) +
+      imgTag(galeria[0], titulo) +
       (galeria.length > 1 ?
         '<button type="button" class="detalhe__galeria-seta detalhe__galeria-seta--prev" data-galeria-prev aria-label="Foto anterior">' + ICONS.arrow + '</button>' +
         '<button type="button" class="detalhe__galeria-seta detalhe__galeria-seta--next" data-galeria-next aria-label="Próxima foto">' + ICONS.arrow + '</button>'
@@ -775,9 +845,9 @@
 
       '<div class="detalhe__cabecalho">' +
       '<div>' +
-      '<p class="detalhe__tipo">' + tipoLabel(imovel.tipo) + ' · ' + (imovel.finalidade === 'aluguel' ? 'Aluguel' : 'Venda') + '</p>' +
-      '<h2 class="detalhe__titulo" id="imovel-overlay-titulo">' + imovel.titulo + '</h2>' +
-      '<p class="detalhe__local">' + ICONS.pin + localizacaoTexto(imovel) + (imovel.localizacao && imovel.localizacao.estado ? ' - ' + imovel.localizacao.estado : '') + '</p>' +
+      '<p class="detalhe__tipo">' + escaparHTML(tipoLabel(imovel.tipo)) + ' · ' + (imovel.finalidade === 'aluguel' ? 'Aluguel' : 'Venda') + '</p>' +
+      '<h2 class="detalhe__titulo" id="imovel-overlay-titulo">' + titulo + '</h2>' +
+      '<p class="detalhe__local">' + ICONS.pin + local + (estado ? ' - ' + estado : '') + '</p>' +
       '</div>' +
       '<span class="detalhe__preco">' + formatarPreco(imovel) + '</span>' +
       '</div>' +
@@ -789,7 +859,7 @@
       (imovel.vagas ? '<div class="detalhe__spec">' + ICONS.car + '<strong>' + imovel.vagas + '</strong><span>Vagas</span></div>' : '') +
       '</div>' +
 
-      (imovel.descricao ? '<p class="detalhe__secao-titulo">Sobre o imóvel</p><p class="detalhe__descricao">' + imovel.descricao + '</p>' : '') +
+      (descricao ? '<p class="detalhe__secao-titulo">Sobre o imóvel</p><p class="detalhe__descricao">' + descricao + '</p>' : '') +
 
       (caracteristicas ? '<p class="detalhe__secao-titulo">Características</p><ul class="detalhe__caracteristicas">' + caracteristicas + '</ul>' : '') +
 
@@ -839,10 +909,15 @@
     if (!galeriaAtual.length) galeriaAtual = [PLACEHOLDER_IMG];
     galeriaIndice = 0;
 
+    elementoAntesDoOverlay = document.activeElement;
+
     overlayConteudo.innerHTML = detalheHTML(imovel);
     overlay.hidden = false;
     document.body.style.overflow = 'hidden';
     ligarGaleria();
+
+    var fechar = overlay.querySelector('.imovel-overlay__fechar');
+    if (fechar) fechar.focus();
 
     if (!semHistorico) {
       var url = new URL(window.location);
@@ -854,6 +929,11 @@
   function fecharDetalhe(semHistorico) {
     overlay.hidden = true;
     document.body.style.overflow = '';
+
+    if (elementoAntesDoOverlay && document.body.contains(elementoAntesDoOverlay)) {
+      elementoAntesDoOverlay.focus();
+    }
+    elementoAntesDoOverlay = null;
 
     if (!semHistorico) {
       var url = new URL(window.location);
@@ -871,6 +951,22 @@
       if (e.key === 'Escape') fecharDetalhe();
       if (e.key === 'ArrowRight') mostrarFoto(galeriaIndice + 1);
       if (e.key === 'ArrowLeft') mostrarFoto(galeriaIndice - 1);
+
+      // Trap de foco: com o overlay aberto, Tab não pode sair dele.
+      if (e.key === 'Tab') {
+        var focaveis = elementosFocaveisNoOverlay();
+        if (!focaveis.length) return;
+        var primeiro = focaveis[0];
+        var ultimo = focaveis[focaveis.length - 1];
+
+        if (e.shiftKey && document.activeElement === primeiro) {
+          e.preventDefault();
+          ultimo.focus();
+        } else if (!e.shiftKey && document.activeElement === ultimo) {
+          e.preventDefault();
+          primeiro.focus();
+        }
+      }
     });
     window.addEventListener('popstate', function () {
       var id = new URL(window.location).searchParams.get('imovel');

@@ -147,13 +147,23 @@
 
         <div class="grid-regular" id="grid-regular" data-estado="carregando"></div>
 
-        <button type="button" class="ver-todos" data-ver-todos hidden>
-          Ver todos
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3.5 8h9M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-        </button>
+        <div class="imoveis__acoes">
+          <button type="button" class="ver-todos" data-ver-mais hidden>
+            Ver mais
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3.5 8h9M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+
+          <button type="button" class="ver-todos ver-todos--recolher" data-recolher hidden>
+            Recolher
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3.5 8h9M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" transform="rotate(180 8 8)" />
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
   </main>
