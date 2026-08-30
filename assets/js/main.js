@@ -685,6 +685,9 @@
       var mensagemVazia = state.modo === 'favoritos'
         ? 'Você ainda não favoritou nenhum imóvel.'
         : 'Nenhum imóvel encontrado com esses filtros.';
+      if (window.pararDeObservarEntradaRolagem) {
+        window.pararDeObservarEntradaRolagem(regularGrid.querySelectorAll('.card-regular'));
+      }
       regularGrid.innerHTML = '<p class="grid-mensagem">' + mensagemVazia + '</p>';
       regularGrid.dataset.estado = 'vazio';
       if (verMaisBtn) verMaisBtn.hidden = true;
@@ -697,6 +700,9 @@
     // state.all — nenhuma busca nova acontece aqui, só fatiamos o array).
     var visiveis = base.slice(0, state.quantidadeVisivel);
 
+    if (window.pararDeObservarEntradaRolagem) {
+      window.pararDeObservarEntradaRolagem(regularGrid.querySelectorAll('.card-regular'));
+    }
     regularGrid.innerHTML = visiveis.map(cardRegularHTML).join('');
     regularGrid.dataset.estado = 'pronto';
 
@@ -737,6 +743,13 @@
         }
       });
     });
+
+    // Animação de entrada ao rolar (ver bloco no fim do arquivo). A grid é
+    // recriada a cada renderização, então os cards precisam ser registrados
+    // de novo no observer toda vez.
+    if (window.observarEntradaRolagem) {
+      window.observarEntradaRolagem(regularGrid.querySelectorAll('.card-regular'));
+    }
   }
 
   /* -- Overlay de detalhe ------------------------------------------------------ */
@@ -961,4 +974,58 @@
       regularGrid.innerHTML = '<p class="grid-mensagem">Não foi possível carregar os imóveis agora.</p>';
       console.error(erro);
     });
+})();
+
+/* ============================================================================
+   ANIMAÇÃO DE ENTRADA AO ROLAR
+   Efeito de fade + leve deslocamento vertical (30px) quando um elemento
+   entra no viewport, disparado uma única vez por elemento via
+   IntersectionObserver. Duas classes (definidas em main.css):
+   `.js-preparar-revelacao` (estado inicial invisível, aplicado ao registrar)
+   e `.js-revelar` (estado visível, aplicado na interseção).
+   Não é vinculado ao progresso do scroll.
+   ============================================================================ */
+
+(function () {
+  'use strict';
+
+  var prefereMenosMovimento = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefereMenosMovimento || !('IntersectionObserver' in window)) {
+    return;
+  }
+
+  var observer = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (entrada) {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add('js-revelar');
+        observer.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  // Exposta para o outro módulo (grid de imóveis) registrar os cards
+  // recém-criados, já que a grid é recriada a cada renderização. Aplica o
+  // estado inicial (invisível/deslocado) antes de observar, para não deixar
+  // o elemento visível por um instante antes da interseção ser detectada.
+  window.observarEntradaRolagem = function (elementos) {
+    elementos.forEach(function (el) {
+      el.classList.add('js-preparar-revelacao');
+      observer.observe(el);
+    });
+  };
+
+  // Exposta para "soltar" elementos antes de serem destruídos (ex.: cards
+  // removidos via innerHTML num novo filtro) — sem isso, o observer mantém
+  // referência a elementos desconectados do DOM que nunca chegaram a
+  // interseccionar, crescendo indefinidamente a cada renderização.
+  window.pararDeObservarEntradaRolagem = function (elementos) {
+    elementos.forEach(function (el) { observer.unobserve(el); });
+  };
+
+  var alvosEstaticos = document.querySelectorAll(
+    '.filtros__painel, .section__titulo, .footer__inner'
+  );
+  window.observarEntradaRolagem(alvosEstaticos);
 })();

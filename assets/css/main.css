@@ -1388,3 +1388,34 @@ body {
         align-items: center;
     }
 }
+
+/* ============================================================================
+   ANIMAÇÃO DE ENTRADA AO ROLAR
+   `.js-preparar-revelacao` é o estado inicial (invisível, deslocado 30px pra
+   baixo) — aplicado pelo JS no momento em que o elemento é registrado no
+   IntersectionObserver, antes de qualquer interseção. `.js-revelar` é
+   adicionado pelo observer quando o elemento entra no viewport e dispara a
+   transição até o estado visível. Sem essa separação em dois estados, o
+   elemento ficava visível por padrão (a animação só "encenava" a entrada
+   quando disparada, mas o estado real antes disso não era invisível).
+   ============================================================================ */
+
+.js-preparar-revelacao {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity var(--duracao-lenta) ease-out,
+        transform var(--duracao-lenta) ease-out;
+}
+
+.js-preparar-revelacao.js-revelar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js-preparar-revelacao {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
