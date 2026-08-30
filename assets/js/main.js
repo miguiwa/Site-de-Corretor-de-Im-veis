@@ -9,6 +9,38 @@
 (function () {
   'use strict';
 
+  // Ao recarregar, alguns navegadores restauram a última posição de rolagem
+  // automaticamente. A página deve sempre abrir pela hero, exceto quando a
+  // URL trouxer uma âncora (por exemplo, #imoveis).
+  if ('scrollRestoration' in window.history) {
+    window.history.scrollRestoration = 'manual';
+  }
+
+  function iniciarNoTopo() {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  iniciarNoTopo();
+  window.addEventListener('pageshow', iniciarNoTopo);
+
+  // Um link direto com ?imovel= continua abrindo o painel. Porém, ao
+  // recarregar a página enquanto ele está aberto, removemos o parâmetro para
+  // que a página volte ao seu estado inicial, com o painel fechado.
+  var navegacao = window.performance.getEntriesByType('navigation')[0];
+  var foiRecarregamento = navegacao
+    ? navegacao.type === 'reload'
+    : window.performance.navigation && window.performance.navigation.type === 1;
+
+  if (foiRecarregamento) {
+    var urlInicial = new URL(window.location);
+    if (urlInicial.searchParams.has('imovel')) {
+      urlInicial.searchParams.delete('imovel');
+      window.history.replaceState({}, '', urlInicial);
+    }
+  }
+
   // Pinça com dois dedos
   document.addEventListener('touchmove', function (evento) {
     if (evento.touches.length > 1) {
