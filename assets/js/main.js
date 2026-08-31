@@ -688,15 +688,17 @@
       'aria-label="Favoritar ' + titulo + '">' + ICONS.coracao + '</button>' +
       '</div>' +
       '<div class="card-regular__corpo">' +
-      '<p class="card-regular__local">' + ICONS.pin + escaparHTML(localizacaoTexto(imovel)) + '</p>' +
       '<h3 class="card-regular__titulo">' + titulo + '</h3>' +
-      '<div class="card-regular__rodape">' +
-      '<span class="card-regular__preco">' + formatarPreco(imovel) + '</span>' +
+      '<p class="card-regular__local">' + ICONS.pin + escaparHTML(localizacaoTexto(imovel)) + '</p>' +
       '<div class="card-regular__specs">' +
       (imovel.quartos ? '<span>' + ICONS.bed + imovel.quartos + '</span>' : '') +
       (imovel.vagas ? '<span>' + ICONS.car + imovel.vagas + '</span>' : '') +
       '<span>' + ICONS.area + imovel.area + ' m²</span>' +
-      '</div></div></div></article>'
+      '</div>' +
+      '<div class="card-regular__rodape">' +
+      '<span class="card-regular__preco">' + formatarPreco(imovel) + '</span>' +
+      '<span class="card-regular__cta">Ver Detalhes</span>' +
+      '</div></div></article>'
     );
   }
 
